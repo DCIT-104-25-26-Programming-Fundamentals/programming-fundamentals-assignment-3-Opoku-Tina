@@ -43,3 +43,35 @@
 // =============================================================================
 
 
+// =============================================================================
+// OPTIMIZED VERSION - Checks only up to square root
+// =============================================================================
+
+const readlineSync = require('readline-sync');
+
+function isPrime(number) {
+    if (number < 2) {
+        return false;
+    }
+    
+    for (let i = 2; i <= Math.sqrt(number); i++) {
+        if (number % i === 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function main() {
+    const userNumber = readlineSync.questionInt('Enter a number: ');
+    const primeResult = isPrime(userNumber);
+    
+    if (primeResult) {
+        console.log(`${userNumber} is a prime number.`);
+    } else {
+        console.log(`${userNumber} is NOT a prime number.`);
+    }
+}
+
+main();
