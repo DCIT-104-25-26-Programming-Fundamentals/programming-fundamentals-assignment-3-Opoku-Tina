@@ -75,3 +75,120 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+function getTwoNumbers() {
+    const num1 = readlineSync.questionFloat('Enter first number: ');
+    const num2 = readlineSync.questionFloat('Enter second number: ');
+    return { num1, num2 };
+}
+
+
+function add() {
+    const { num1, num2 } = getTwoNumbers();
+    const result = num1 + num2;
+    console.log(`Result: ${num1} + ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function subtract() {
+    const { num1, num2 } = getTwoNumbers();
+    const result = num1 - num2;
+    console.log(`Result: ${num1} - ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function multiply() {
+    const { num1, num2 } = getTwoNumbers();
+    const result = num1 * num2;
+    console.log(`Result: ${num1} * ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function divide() {
+    const { num1, num2 } = getTwoNumbers();
+    
+    if (num2 === 0) {
+        console.log('Error: Cannot divide by zero.');
+        return;
+    }
+    
+    const result = num1 / num2;
+    console.log(`Result: ${num1} / ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function modulus() {
+    const { num1, num2 } = getTwoNumbers();
+    
+    if (num2 === 0) {
+        console.log('Error: Cannot calculate modulus with zero divisor.');
+        return;
+    }
+    
+    const result = num1 % num2;
+    console.log(`Result: ${num1} % ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function exponentiate() {
+    const { num1, num2 } = getTwoNumbers();
+    const result = Math.pow(num1, num2);
+    console.log(`Result: ${num1} ** ${num2} = ${result.toFixed(2)}`);
+}
+
+
+function displayMenu() {
+    console.log('\n============================');
+    console.log('     SIMPLE CALCULATOR');
+    console.log('============================');
+    console.log('1. Addition');
+    console.log('2. Subtraction');
+    console.log('3. Multiplication');
+    console.log('4. Division');
+    console.log('5. Modulus');
+    console.log('6. Exponentiation');
+    console.log('7. Quit');
+}
+
+
+function main() {
+    console.log('Welcome to the Simple Calculator!\n');
+    
+    let running = true;
+    while (running) {
+        displayMenu();
+        
+        const choice = readlineSync.questionInt('Select an operation (1-7): ');
+        
+        switch (choice) {
+            case 1:
+                add();
+                break;
+            case 2:
+                subtract();
+                break;
+            case 3:
+                multiply();
+                break;
+            case 4:
+                divide();
+                break;
+            case 5:
+                modulus();
+                break;
+            case 6:
+                exponentiate();
+                break;
+            case 7:
+                console.log('Goodbye!');
+                running = false;
+                break;
+                
+            default:
+                console.log('Error: Invalid choice. Please enter a number between 1 and 7.');
+        }
+    }
+}
+
+main();
