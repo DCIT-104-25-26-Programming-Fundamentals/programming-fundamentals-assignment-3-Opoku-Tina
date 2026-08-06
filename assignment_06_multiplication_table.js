@@ -60,3 +60,96 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+function printSingleTable(number) {
+    console.log(`\nMultiplication Table for ${number}:`);
+    
+    for (let i = 1; i <= 12; i++) {
+        const result = number * i;
+        
+        console.log(`${number}  x  ${i.toString().padStart(2)}  =  ${result.toString().padStart(3)}`);
+    }
+}
+
+
+function printMultipleTables(n) {
+
+    if (n <= 0) {
+        console.log('Error: N must be a positive integer.');
+        return;
+    }
+    
+    for (let number = 1; number <= n; number++) {
+        
+        console.log(`\nMultiplication Table for ${number}:`);
+        for (let i = 1; i <= 12; i++) {
+            const result = number * i;
+            console.log(`${number}  x  ${i.toString().padStart(2)}  =  ${result.toString().padStart(3)}`);
+        }
+        if (number < n) {
+            console.log('---------------------------');
+        }
+    }
+}
+
+
+function printSingleTableFormatted(number) {
+    console.log(`\n${'='.repeat(30)}`);
+    console.log(`  Multiplication Table for ${number}`);
+    console.log(`${'='.repeat(30)}`);
+    
+    for (let i = 1; i <= 12; i++) {
+        const result = number * i;
+    
+        console.log(`  ${number}  ×  ${i.toString().padStart(2)}  =  ${result.toString().padStart(3)}`);
+    }
+    console.log(`${'='.repeat(30)}`);
+}
+
+
+function printMultipleTablesFormatted(n) {
+    if (n <= 0) {
+        console.log('Error: N must be a positive integer.');
+        return;
+    }
+    
+    for (let number = 1; number <= n; number++) {
+        console.log(`\n${'='.repeat(30)}`);
+        console.log(`  Multiplication Table for ${number}`);
+        console.log(`${'='.repeat(30)}`);
+        
+        for (let i = 1; i <= 12; i++) {
+            const result = number * i;
+            console.log(`  ${number}  ×  ${i.toString().padStart(2)}  =  ${result.toString().padStart(3)}`);
+        }
+        
+        if (number < n) {
+            console.log(`${'-'.repeat(30)}`);
+        }
+    }
+}
+
+
+function main() {
+    console.log('MULTIPLICATION TABLE GENERATOR');
+    console.log('===============================\n');
+    
+    console.log('--- PART A: Single Table ---');
+    const number = readlineSync.questionInt('Enter a number: ');
+    printSingleTable(number);
+    
+    console.log('\n');  
+    
+    console.log('--- PART B: Multiple Tables ---');
+    const n = readlineSync.questionInt('Enter N (positive integer): ');
+    printMultipleTables(n);
+    
+    console.log('\n');  
+    
+    console.log('--- Bonus: Formatted Version ---');
+    console.log('Generating tables for 3 with better formatting:');
+    printMultipleTablesFormatted(3);
+}
+
+main();
