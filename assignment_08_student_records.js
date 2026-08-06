@@ -85,3 +85,164 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+let students = [];
+function addStudent() {
+    const name = readlineSync.question('Student name: ');
+    
+    if (name.trim() === '') {
+        console.log('Error: Student name cannot be empty.');
+        return;
+    }
+    
+    const id = readlineSync.questionInt('Student ID: ');
+    
+    for (let i = 0; i < students.length; i++) {
+        if (students[i].id === id) {
+            console.log('Error: A student with this ID already exists.');
+            return;
+        }
+    }    
+
+    const numScores = readlineSync.questionInt('How many scores? ');
+    
+    if (numScores <= 0) {
+        console.log('Error: Number of scores must be positive.');
+        return;
+    }
+    
+    const scores = [];
+    for (let i = 0; i < numScores; i++) {
+        const score = readlineSync.questionInt(`Enter score ${i + 1}: `);
+        
+        if (score < 0 || score > 100) {
+            console.log('Error: Score must be between 0 and 100.');
+            return;
+        }
+        
+        scores.push(score);
+    }
+    
+    const student = {
+        name: name,
+        id: id,
+        scores: scores
+    };
+    
+    students.push(student);
+    
+    console.log(`Student "${name}" added successfully.`);
+}
+
+
+function calculateAverage(scores) {
+    let sum = 0;
+    for (let i = 0; i < scores.length; i++) {
+        sum += scores[i];
+    }
+    return sum / scores.length;
+}
+
+
+function displayAllStudents() {
+    if (students.length === 0) {
+        console.log('\nNo students have been added yet.');
+        return;
+    }
+    
+    console.log('\n' + '='.repeat(80));
+    console.log('STUDENT RECORDS');
+    console.log('='.repeat(80));
+    
+    for (let i = 0; i < students.length; i++) {
+        const student = students[i];
+        const average = calculateAverage(student.scores);
+        
+        console.log(`\nStudent ${i + 1}:`);
+        console.log(`  Name:   ${student.name}`);
+        console.log(`  ID:     ${student.id}`);
+        
+        let scoresStr = '';
+        for (let j = 0; j < student.scores.length; j++) {
+            scoresStr += student.scores[j];
+            if (j < student.scores.length - 1) {
+                scoresStr += ', ';
+            }
+        }
+        console.log(`  Scores: [${scoresStr}]`);
+        console.log(`  Average: ${average.toFixed(2)}`);
+        console.log('-'.repeat(40));
+    }
+}
+
+
+function calculateStudentAverage() {
+    if (students.length === 0) {
+        console.log('\nNo students have been added yet.');
+        return;
+    }
+    
+    const id = readlineSync.questionInt('Enter student ID: ');
+    
+    let foundStudent = null;
+    for (let i = 0; i < students.length; i++) {
+        if (students[i].id === id) {
+            foundStudent = students[i];
+            break;
+        }
+    }
+    
+    if (foundStudent === null) {
+        console.log(`Error: No student found with ID ${id}.`);
+        return;
+    }
+    
+    const average = calculateAverage(foundStudent.scores);
+    console.log(`${foundStudent.name}'s average score: ${average.toFixed(2)}`);
+}
+
+
+function displayMenu() {
+    console.log('\n================================');
+    console.log('   STUDENT RECORD SYSTEM MENU');
+    console.log('================================');
+    console.log('1. Add student');
+    console.log('2. Display all students');
+    console.log('3. Calculate average score');
+    console.log('4. Quit');
+}
+
+
+function main() {
+    console.log('Welcome to the Student Record Management System!\n');
+    
+    let running = true;
+    
+    while (running) {
+        displayMenu();
+        
+        const choice = readlineSync.questionInt('Enter your choice (1-4): ');
+        
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                displayAllStudents();
+                break;
+            case 3:
+                calculateStudentAverage();
+                break;
+            case 4:
+                console.log('\nGoodbye!');
+                running = false;
+                break;
+                
+            default:
+                console.log('Error: Invalid choice. Please enter a number between 1 and 4.');
+        }
+    }
+}
+
+main();
